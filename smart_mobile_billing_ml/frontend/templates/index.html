@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Supermarket</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/static/css/style.css">
+
+  <!-- Quagga -->
+  <script src="https://unpkg.com/quagga@0.12.1/dist/quagga.min.js"></script>
+</head>
+
+<body>
+
+<header>
+  🛒 Smart Supermarket
+  <a href="/admin" style="float:right; color:white; text-decoration:none;">Admin</a>
+</header>
+
+
+<div class="container">
+
+  <!-- SCANNER -->
+  <div class="card">
+    <h3>📷 Scan Product</h3>
+
+    <div id="scanner"
+         style="width:100%; height:300px; border:2px solid #4CAF50; border-radius:10px;">
+    </div>
+
+    <button onclick="startScanner()">Start Scan</button>
+    <button onclick="stopScanner()">Stop Scan</button>
+  </div>
+
+  <!-- MANUAL BARCODE -->
+  <div class="card">
+    <h3>⌨️ Manual Barcode Entry</h3>
+    <input type="text" id="manualBarcode" placeholder="Enter Barcode">
+    <button onclick="manualScan()">Add Product</button>
+  </div>
+  <center>
+  <a href="/cart" class="btn">🛒 View Cart</a>
+  </center>
+</div>
+
+<script>
+function startScanner() {
+  Quagga.init({
+    inputStream: {
+      name: "Live",
+      type: "LiveStream",
+      target: document.querySelector('#scanner'),
+      constraints: {
+        facingMode: "environment" // BACK CAMERA
+      }
+    },
+    decoder: {
+      readers: [
+        "ean_reader",
+        "ean_8_reader",
+        "upc_reader",
+        "code_128_reader"
+      ]
+    },
+    locate: true
+  }, function (err) {
+    if (err) {
+      alert("Camera error");
+      console.error(err);
+      return;
+    }
+    Quagga.start();
+  });
+
+  Quagga.onDetected(function (result) {
+    const code = result.codeResult.code;
+    Quagga.stop();
+    addScannedProduct(code);
+  });
+}
+
+function stopScanner() {
+  Quagga.stop();
+}
+
+function addScannedProduct(barcode) {
+  fetch("/scan", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ barcode: barcode })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success") {
+      alert("Added: " + data.product.name);
+    } else {
+      alert("Product not found: " + barcode);
+    }
+  });
+}
+
+function manualScan() {
+  const barcode = document.getElementById("manualBarcode").value;
+
+  fetch("/scan", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ barcode: barcode })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success") {
+      alert("Added: " + data.product.name);
+    } else {
+      alert("Product not found");
+    }
+  });
+}
+</script>
+
+</body>
+</html>

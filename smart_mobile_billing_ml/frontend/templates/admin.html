@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<header>🛠 Admin Dashboard</header>
+
+<div class="container">
+
+    <div class="card">
+        <h3>Add New Product</h3>
+        <form action="/add-product" method="POST">
+            <input type="text" name="barcode" placeholder="Barcode" required>
+            <input type="text" name="name" placeholder="Product Name" required>
+            <input type="number" name="price" placeholder="Price" required>
+            <button type="submit" class="btn green">Add Product</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>All Products ({{ products|length }})</h3>
+
+        {% for barcode, item in products.items() %}
+            <div class="item">
+                <span>{{ item.name }} (₹{{ item.price }})</span>
+                <a href="/delete-product/{{ barcode }}" class="remove-btn">❌</a>
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <center>
+        <a href="/" class="btn">⬅ Back to Shop</a>
+    </center>
+
+</div>
+<a href="/admin-logout" class="btn danger">Logout</a>
+
+
+</body>
+</html>

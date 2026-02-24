@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Supermarket Bill</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #f5f5f5;
+    }
+    .bill {
+      width: 300px;
+      margin: auto;
+      background: white;
+      padding: 15px;
+      color: black;
+    }
+    .center {
+      text-align: center;
+    }
+    .line {
+      border-top: 1px dashed black;
+      margin: 10px 0;
+    }
+    table {
+      width: 100%;
+      font-size: 14px;
+    }
+    th, td {
+      text-align: left;
+      padding: 3px 0;
+    }
+    .right {
+      text-align: right;
+    }
+    .bold {
+      font-weight: bold;
+    }
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="bill">
+
+  <div class="center bold">SUPERMARKET</div>
+  <div class="center">Ragul Smart Mart</div>
+  <div class="center">City Index: 620025</div>
+  <div class="center">Tel: +91 98765 43210</div>
+
+  <div class="line"></div>
+
+  <div>Cashier: System</div>
+  <div>Bill No: {{ range(1000,9999)|random }}</div>
+  <div>Date: <span id="date"></span></div>
+  <div>Time: <span id="time"></span></div>
+
+  <div class="line"></div>
+
+  <table>
+    <tr class="bold">
+      <td>Name</td>
+      <td class="right">Qty</td>
+      <td class="right">Price</td>
+    </tr>
+
+    {% for item in cart %}
+    <tr>
+      <td>{{ item.name }}</td>
+      <td class="right">1</td>
+      <td class="right">₹{{ item.price }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <div class="line"></div>
+
+  <table>
+    <tr class="bold">
+      <td>Sub Total</td>
+      <td class="right">₹{{ total }}</td>
+    </tr>
+    <tr>
+      <td>Paid</td>
+      <td class="right">₹{{ total }}</td>
+    </tr>
+    <tr>
+      <td>Change</td>
+      <td class="right">₹0.00</td>
+    </tr>
+  </table>
+
+  <div class="line"></div>
+
+  <div class="center">
+    <img src="https://barcode.tec-it.com/barcode.ashx?data=THANKYOU&code=Code128"
+         width="200">
+  </div>
+
+  <div class="center bold">THANK YOU!</div>
+  <div class="center">Glad to see you again!</div>
+
+  <button onclick="window.print()">Download Bill</button>
+
+</div>
+
+<script>
+  const now = new Date();
+  document.getElementById("date").innerText =
+    now.toLocaleDateString();
+  document.getElementById("time").innerText =
+    now.toLocaleTimeString();
+</script>
+
+</body>
+</html>

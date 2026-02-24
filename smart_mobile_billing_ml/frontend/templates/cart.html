@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<header>🛒 Your Shopping Cart</header>
+
+<div class="container">
+
+  {% if cart and cart|length > 0 %}
+
+    {% for item in cart %}
+      <div class="item">
+        <span>{{ item.name }}</span>
+        <span>₹{{ item.price }}</span>
+        <a href="/remove-item/{{ loop.index0 }}" class="remove-btn">❌</a>
+      </div>
+    {% endfor %}
+
+    <div class="total-box">
+      Total Amount: ₹{{ total }}
+    </div>
+
+    <center>
+      <a href="/payment" class="btn green">Proceed to Payment 💳</a>
+    </center>
+
+  {% else %}
+    <p style="text-align:center; font-size:18px;">🛒 Your cart is empty</p>
+  {% endif %}
+
+</div>
+
+</body>
+</html>

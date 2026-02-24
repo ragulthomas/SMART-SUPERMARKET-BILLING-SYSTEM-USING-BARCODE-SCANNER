@@ -1,0 +1,149 @@
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f5f6fa;
+}
+
+header {
+  background: linear-gradient(to right, #27ae60, #2ecc71);
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  padding: 15px;
+  max-width: 480px;
+  margin: auto;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  margin-bottom: 20px;
+}
+
+/* ===== SCANNER FIX (VERY IMPORTANT) ===== */
+#scanner {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  height: 260px;
+  margin: 10px auto;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 3px solid #2ecc71;
+  background: #000;
+}
+
+/* Force camera video to stay inside box */
+#scanner video {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Barcode overlay */
+#scanner canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+/* ===== PRODUCT ITEM ===== */
+.item {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* ===== TOTAL BOX ===== */
+.total-box {
+  background: #f1c40f;
+  padding: 15px;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+/* ===== PAYMENT CARD ===== */
+.pay-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* ===== INPUT ===== */
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+/* ===== BUTTONS ===== */
+button, .btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  background: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.remove-btn {
+  color: #e74c3c;
+  font-size: 18px;
+  text-decoration: none;
+  margin-left: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+.btn.green {
+  background: #27ae60;
+}
+
+.btn.danger {
+  background: #e74c3c;
+}
+
+/* ===== MOBILE OPTIMIZATION ===== */
+@media (max-width: 480px) {
+  header {
+    font-size: 20px;
+  }
+
+  #scanner {
+    height: 240px;
+  }
+}

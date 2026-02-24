@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+<header>💳 Payment Portal</header>
+
+<div class="container">
+
+  <div class="pay-card">
+    <h2>Total Amount</h2>
+    <h1>₹{{ total }}</h1>
+
+    <button onclick="payRazorpay()">Pay with Razorpay</button>
+
+    <p style="margin-top:15px;">OR</p>
+
+    <a href="/generate-bill" class="btn green">
+      Cash / UPI Paid (Demo)
+    </a>
+  </div>
+
+</div>
+
+<script>
+function payRazorpay() {
+
+  fetch("/create-order", { method: "POST" })
+    .then(res => res.json())
+    .then(order => {
+
+      var options = {
+        "key": "rzp_test_YOURKEY",   // replace key
+        "amount": order.amount,
+        "currency": "INR",
+        "name": "Smart Supermarket",
+        "description": "Smart Billing Payment",
+        "order_id": order.id,
+
+        "handler": function (response) {
+          window.location.href = "/generate-bill";
+        },
+
+        "theme": {
+          "color": "#27ae60"
+        }
+      };
+
+      var rzp = new Razorpay(options);
+      rzp.open();
+
+    })
+    .catch(() => {
+      alert("Payment gateway unavailable. Use demo payment.");
+    });
+}
+</script>
+
+</body>
+</html>
